@@ -2,9 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nexa_erp_mobile/features/auth/application/auth_provider.dart';
+import 'package:nexa_erp_mobile/features/auth/presentation/login_screen.dart';
 import 'package:nexa_erp_mobile/features/dashboard/presentation/dashboard_screen.dart';
 import 'package:nexa_erp_mobile/features/notifications/presentation/notification_screen.dart';
-import 'package:nexa_erp_mobile/features/splash/presentation/login_screen.dart';
 import 'package:nexa_erp_mobile/features/splash/presentation/splash_screen.dart';
 
 class _AuthRouterRefresh extends ChangeNotifier {

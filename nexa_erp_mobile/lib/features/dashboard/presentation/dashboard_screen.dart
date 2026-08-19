@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../app/theme/app_colors.dart';
 import '../../auth/application/auth_provider.dart';
+import '../../../shared/widgets/notification_bell.dart';
+import '../../../shared/widgets/stat_tile.dart';
 import '../application/dashboard_provider.dart';
-import '../data/dashboard_models.dart';
+import 'widgets/cash_hero_card.dart';
+import 'widgets/budget_donut_card.dart';
+import 'widgets/expense_progress_card.dart';
+import 'widgets/recent_activity_list.dart';
+import 'widgets/quick_actions_row.dart';
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
@@ -14,256 +21,193 @@ class DashboardScreen extends ConsumerWidget {
     final user = ref.watch(authProvider).valueOrNull;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('হ্যালো, ${user?.name ?? ''}'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () => ref.read(authProvider.notifier).logout(),
-          ),
-        ],
-      ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          ref.invalidate(dashboardSummaryProvider);
-          ref.invalidate(dashboardWorkflowProvider);
-        },
+      backgroundColor: AppColors.bg,
+      body: SafeArea(
         child: summaryAsync.when(
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (e, _) => ListView(
-            children: [
-              const SizedBox(height: 100),
-              Center(child: Text('Load করতে সমস্যা হয়েছে: $e')),
-            ],
-          ),
-          data: (summary) => ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              _WorkflowCard(workflowAsync: workflowAsync),
-              const SizedBox(height: 16),
-              _CashCard(business: summary.business),
-              const SizedBox(height: 16),
-              _StatRow(finance: summary.finance, users: summary.users),
-              const SizedBox(height: 16),
-              _ExpenseBudgetCard(expense: summary.expense, budget: summary.budget),
-              const SizedBox(height: 16),
-              _RecentActivitiesCard(activities: summary.recentActivities),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+          error: (e, _) => Center(child: Text('Load করতে সমস্যা হয়েছে: $e')),
+          data: (summary) {
+            final pendingApprovals = workflowAsync.valueOrNull?.myPendingCount ?? 0;
 
-class _WorkflowCard extends StatelessWidget {
-  final AsyncValue<DashboardWorkflowSummary> workflowAsync;
-  const _WorkflowCard({required this.workflowAsync});
-
-  @override
-  Widget build(BuildContext context) {
-    return workflowAsync.when(
-      loading: () => const SizedBox.shrink(),
-      error: (_, __) => const SizedBox.shrink(),
-      data: (w) {
-        if (!w.approvalEnabled) return const SizedBox.shrink();
-        return Card(
-          color: Theme.of(context).colorScheme.primaryContainer,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: [
-                const Icon(Icons.pending_actions),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            return RefreshIndicator(
+              onRefresh: () async {
+                ref.invalidate(dashboardSummaryProvider);
+                ref.invalidate(dashboardWorkflowProvider);
+              },
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+                children: [
+                  // Header
+                  Row(
                     children: [
-                      Text('আপনার approve করার জন্য অপেক্ষমাণ: ${w.myPendingCount}'),
-                      if (w.myReturnedCount > 0)
-                        Text('Returned: ${w.myReturnedCount}', style: const TextStyle(color: Colors.orange)),
+                      IconButton(
+                        icon: const Icon(Icons.menu, color: AppColors.textPrimary),
+                        onPressed: () {},
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text('হ্যালো, ${user?.name ?? ''}',
+                                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                                const SizedBox(width: 4),
+                                const Text('👋', style: TextStyle(fontSize: 16)),
+                              ],
+                            ),
+                            const Text('সু-প্রভাত! আজকের ব্যবসায়ের সারসংক্ষেপ দেখুন',
+                                style: TextStyle(fontSize: 11, color: AppColors.textSecondary)),
+                          ],
+                        ),
+                      ),
+                      const NotificationBell(),
+                      const SizedBox(width: 8),
+                      PopupMenuButton<String>(
+                        offset: const Offset(0, 45),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        onSelected: (value) {
+                          if (value == 'logout') {
+                            ref.read(authProvider.notifier).logout();
+                          }
+                        },
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            enabled: false,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(user?.name ?? '', style: const TextStyle(fontWeight: FontWeight.bold)),
+                                Text(user?.email ?? '', style: const TextStyle(fontSize: 12, color: AppColors.textSecondary)),
+                              ],
+                            ),
+                          ),
+                          const PopupMenuDivider(),
+                          const PopupMenuItem(
+                            value: 'logout',
+                            child: Row(
+                              children: [
+                                Icon(Icons.logout, size: 18, color: AppColors.danger),
+                                SizedBox(width: 10),
+                                Text('Logout', style: TextStyle(color: AppColors.danger)),
+                              ],
+                            ),
+                          ),
+                        ],
+                        child: CircleAvatar(
+                          radius: 18,
+                          backgroundColor: AppColors.chipBlue,
+                          child: Text(
+                            (user?.name.isNotEmpty ?? false) ? user!.name[0].toUpperCase() : '?',
+                            style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
+                  const SizedBox(height: 16),
 
-class _CashCard extends StatelessWidget {
-  final BusinessSummary business;
-  const _CashCard({required this.business});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Cash Position', style: Theme.of(context).textTheme.labelLarge),
-            Text(
-              '${business.currencyCode ?? ''} ${business.cashPosition.toStringAsFixed(2)}',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            const Divider(height: 24),
-            Row(
-              children: [
-                Expanded(
-                  child: _MiniStat(
-                    label: 'Receivable',
-                    value: business.accountsReceivable,
-                    overdue: business.overdueInvoiceCount,
+                  // Cash hero card
+                  CashHeroCard(
+                    currencyCode: summary.business.currencyCode ?? 'BDT',
+                    cashPosition: summary.business.cashPosition,
+                    receivable: summary.business.accountsReceivable,
+                    payable: summary.business.accountsPayable,
+                    overdueInvoiceCount: summary.business.overdueInvoiceCount,
+                    overdueBillCount: summary.business.overdueBillCount,
                   ),
-                ),
-                Expanded(
-                  child: _MiniStat(
-                    label: 'Payable',
-                    value: business.accountsPayable,
-                    overdue: business.overdueBillCount,
+                  const SizedBox(height: 16),
+
+                  // Stat grid
+                  GridView.count(
+                    crossAxisCount: 4,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 0.78,
+                    children: [
+                      StatTile(
+                        icon: Icons.groups,
+                        iconColor: AppColors.iconBlue,
+                        chipColor: AppColors.chipBlue,
+                        value: '${summary.finance.totalAccounts}',
+                        label: 'Accounts',
+                      ),
+                      StatTile(
+                        icon: Icons.description,
+                        iconColor: AppColors.iconGreen,
+                        chipColor: AppColors.chipGreen,
+                        value: '${summary.finance.totalJournalEntries}',
+                        label: 'Journal Entries',
+                      ),
+                      StatTile(
+                        icon: Icons.pending_actions,
+                        iconColor: AppColors.iconOrange,
+                        chipColor: AppColors.chipOrange,
+                        value: '$pendingApprovals',
+                        label: 'Pending Approvals',
+                      ),
+                      StatTile(
+                        icon: Icons.person,
+                        iconColor: AppColors.iconPurple,
+                        chipColor: AppColors.chipPurple,
+                        value: '${summary.users.active}',
+                        label: 'Active Users',
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+                  const SizedBox(height: 16),
 
-class _MiniStat extends StatelessWidget {
-  final String label;
-  final double value;
-  final int overdue;
-  const _MiniStat({required this.label, required this.value, required this.overdue});
+                  // Expense/Budget + Donut side by side
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(child: ExpenseProgressCard(expense: summary.expense, budget: summary.budget)),
+                      const SizedBox(width: 12),
+                      Expanded(child: BudgetDonutCard(budget: summary.budget)),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: Theme.of(context).textTheme.bodySmall),
-        Text(value.toStringAsFixed(2), style: Theme.of(context).textTheme.titleMedium),
-        if (overdue > 0)
-          Text('$overdue overdue', style: const TextStyle(color: Colors.red, fontSize: 12)),
-      ],
-    );
-  }
-}
+                  RecentActivityList(activities: summary.recentActivities),
+                  const SizedBox(height: 16),
 
-class _StatRow extends StatelessWidget {
-  final FinanceSummary finance;
-  final UserSummary users;
-  const _StatRow({required this.finance, required this.users});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(child: _StatTile(label: 'Accounts', value: '${finance.totalAccounts}', icon: Icons.account_balance)),
-        const SizedBox(width: 12),
-        Expanded(child: _StatTile(label: 'Journal Entries', value: '${finance.totalJournalEntries}', icon: Icons.book)),
-        const SizedBox(width: 12),
-        Expanded(child: _StatTile(label: 'Active Users', value: '${users.active}', icon: Icons.people)),
-      ],
-    );
-  }
-}
-
-class _StatTile extends StatelessWidget {
-  final String label, value;
-  final IconData icon;
-  const _StatTile({required this.label, required this.value, required this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          children: [
-            Icon(icon, size: 20),
-            const SizedBox(height: 6),
-            Text(value, style: Theme.of(context).textTheme.titleMedium),
-            Text(label, style: Theme.of(context).textTheme.bodySmall, textAlign: TextAlign.center),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ExpenseBudgetCard extends StatelessWidget {
-  final ExpenseDashboard expense;
-  final BudgetDashboard budget;
-  const _ExpenseBudgetCard({required this.expense, required this.budget});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Expense & Budget', style: Theme.of(context).textTheme.labelLarge),
-            const SizedBox(height: 8),
-            Text('Draft expense: ${expense.draftCount} (${expense.draftTotalAmount.toStringAsFixed(2)})'),
-            Text('This month posted: ${expense.postedThisMonthTotal.toStringAsFixed(2)}'),
-            if (budget.hasActiveBudget) ...[
-              const SizedBox(height: 8),
-              Text('Budget: ${budget.activeBudgetName}'),
-              LinearProgressIndicator(
-                value: (budget.expenseUtilizationPercent / 100).clamp(0, 1),
-                color: budget.expenseUtilizationPercent > 90 ? Colors.red : null,
-              ),
-              Text('${budget.expenseUtilizationPercent.toStringAsFixed(1)}% utilized'),
-            ] else if (budget.unavailableReason != null)
-              Text(budget.unavailableReason!, style: const TextStyle(color: Colors.grey)),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _RecentActivitiesCard extends StatelessWidget {
-  final List<RecentActivity> activities;
-  const _RecentActivitiesCard({required this.activities});
-
-  @override
-  Widget build(BuildContext context) {
-    if (activities.isEmpty) return const SizedBox.shrink();
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Recent Activities', style: Theme.of(context).textTheme.labelLarge),
-            const SizedBox(height: 8),
-            ...activities.take(5).map((a) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Row(
-                children: [
-                  const Icon(Icons.circle, size: 6),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      '${a.action ?? ''} · ${a.entityName ?? ''} — ${a.userName ?? ''}',
-                      style: Theme.of(context).textTheme.bodySmall,
+                  QuickActionsRow(actions: [
+                    QuickAction(
+                      icon: Icons.add,
+                      color: AppColors.iconBlue,
+                      bgColor: AppColors.chipBlue,
+                      label: 'Add Account',
+                      onTap: () {},
                     ),
-                  ),
+                    QuickAction(
+                      icon: Icons.receipt_long,
+                      color: AppColors.iconGreen,
+                      bgColor: AppColors.chipGreen,
+                      label: 'New Invoice',
+                      onTap: () {},
+                    ),
+                    QuickAction(
+                      icon: Icons.account_balance_wallet,
+                      color: AppColors.iconOrange,
+                      bgColor: AppColors.chipOrange,
+                      label: 'Receive Payment',
+                      onTap: () {},
+                    ),
+                    QuickAction(
+                      icon: Icons.swap_horiz,
+                      color: AppColors.iconPurple,
+                      bgColor: AppColors.chipPurple,
+                      label: 'Make Payment',
+                      onTap: () {},
+                    ),
+                  ]),
                 ],
               ),
-            )),
-          ],
+            );
+          },
         ),
       ),
     );
