@@ -25,7 +25,7 @@ class DashboardScreen extends ConsumerWidget {
       body: SafeArea(
         child: summaryAsync.when(
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (e, _) => Center(child: Text('Load করতে সমস্যা হয়েছে: $e')),
+          error: (e, _) => Center(child: Text('Load problem: $e')),
           data: (summary) {
             final pendingApprovals = workflowAsync.valueOrNull?.myPendingCount ?? 0;
 
@@ -50,13 +50,13 @@ class DashboardScreen extends ConsumerWidget {
                           children: [
                             Row(
                               children: [
-                                Text('হ্যালো, ${user?.name ?? ''}',
+                                Text('Greetings, ${user?.name ?? ''}',
                                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                                 const SizedBox(width: 4),
                                 const Text('👋', style: TextStyle(fontSize: 16)),
                               ],
                             ),
-                            const Text('সু-প্রভাত! আজকের ব্যবসায়ের সারসংক্ষেপ দেখুন',
+                            const Text('Hello! Welcome Back To System',
                                 style: TextStyle(fontSize: 11, color: AppColors.textSecondary)),
                           ],
                         ),

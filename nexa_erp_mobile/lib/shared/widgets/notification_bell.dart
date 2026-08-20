@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nexa_erp_mobile/features/notifications/application/notification_provider.dart';
+import 'package:go_router/go_router.dart';
+import '../../features/notifications/application/notification_provider.dart';
 
 class NotificationBell extends ConsumerWidget {
   const NotificationBell({super.key});
@@ -16,7 +17,7 @@ class NotificationBell extends ConsumerWidget {
         isLabelVisible: count > 0,
         child: const Icon(Icons.notifications_outlined),
       ),
-      onPressed: () => Navigator.of(context).pushNamed('/notifications'),
+      onPressed: () => context.push('/notifications'),
     );
   }
 }

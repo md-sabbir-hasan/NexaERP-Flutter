@@ -1,7 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:nexa_erp_mobile/features/dashboard/data/dashboard_models.dart';
+
 import '../../../../app/theme/app_colors.dart';
-import '../../data/dashboard_models.dart';
 
 class BudgetDonutCard extends StatelessWidget {
   final BudgetDashboard budget;
@@ -26,11 +27,11 @@ class BudgetDonutCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Budget Utilization', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-              const Icon(Icons.more_horiz, color: AppColors.textSecondary),
+              Text('Budget Utilization', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              Icon(Icons.more_horiz, color: AppColors.textSecondary),
             ],
           ),
           const SizedBox(height: 4),
