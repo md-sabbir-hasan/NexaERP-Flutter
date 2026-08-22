@@ -10,7 +10,7 @@ class MainShell extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (context) => Container(
+      builder: (sheetContext) => Container(
         padding: const EdgeInsets.all(20),
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -23,10 +23,48 @@ class MainShell extends StatelessWidget {
             const SizedBox(height: 20),
             const Text('Quick Actions', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             const SizedBox(height: 16),
-            _quickActionTile(context, Icons.add_circle_outline, 'Add Account'),
-            _quickActionTile(context, Icons.receipt_long_outlined, 'New Invoice'),
-            _quickActionTile(context, Icons.account_balance_wallet_outlined, 'Receive Payment'),
-            _quickActionTile(context, Icons.swap_horiz, 'Make Payment'),
+            _quickActionTile(
+              sheetContext,
+              Icons.add_circle_outline,
+              'Add Account',
+              onTap: () {
+                Navigator.pop(sheetContext);
+                sheetContext.push('/accounts');
+              },
+            ),
+            _quickActionTile(
+              sheetContext,
+              Icons.receipt_long_outlined,
+              'New Invoice',
+              onTap: () {
+                Navigator.pop(sheetContext);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Invoice module শীঘ্রই আসছে')),
+                );
+              },
+            ),
+            _quickActionTile(
+              sheetContext,
+              Icons.account_balance_wallet_outlined,
+              'Receive Payment',
+              onTap: () {
+                Navigator.pop(sheetContext);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Payment module শীঘ্রই আসছে')),
+                );
+              },
+            ),
+            _quickActionTile(
+              sheetContext,
+              Icons.swap_horiz,
+              'Make Payment',
+              onTap: () {
+                Navigator.pop(sheetContext);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Payment module শীঘ্রই আসছে')),
+                );
+              },
+            ),
             const SizedBox(height: 10),
           ],
         ),
@@ -34,11 +72,11 @@ class MainShell extends StatelessWidget {
     );
   }
 
-  Widget _quickActionTile(BuildContext context, IconData icon, String label) {
+  Widget _quickActionTile(BuildContext context, IconData icon, String label, {required VoidCallback onTap}) {
     return ListTile(
       leading: CircleAvatar(backgroundColor: AppColors.chipBlue, child: Icon(icon, color: AppColors.primary)),
       title: Text(label),
-      onTap: () => Navigator.pop(context),
+      onTap: onTap,
     );
   }
 
@@ -63,7 +101,7 @@ class MainShell extends StatelessWidget {
           children: [
             _navItem(context, 0, Icons.dashboard_outlined, Icons.dashboard, 'Dashboard'),
             _navItem(context, 1, Icons.account_balance_outlined, Icons.account_balance, 'Accounts'),
-            const SizedBox(width: 40), // FAB এর জন্য gap
+            const SizedBox(width: 40),
             _navItem(context, 2, Icons.pie_chart_outline, Icons.pie_chart, 'Reports'),
             _navItem(context, 3, Icons.menu, Icons.menu, 'More'),
           ],

@@ -38,4 +38,14 @@ class ApiEndpoints {
   static String journalPost(int id) => '/journals/$id/post';
   static String journalSubmitApproval(int id) => '/journals/$id/submit-approval';
   static String journalReverse(int id) => '/journals/$id/reverse';
+
+  // Approvals
+  static const String approvalsPending = '/approvals/pending';
+  static const String approvalsPendingCount = '/approvals/pending/count';
+  static const String approvalsMyRequests = '/approvals/my-requests';
+  static const String approvalsMyActions = '/approvals/my-actions';
+  static String approvalById(int id) => '/approvals/$id';
+  static String approvalApprove(int id) => '/approvals/$id/approve';
+  static String approvalReject(int id) => '/approvals/$id/reject';
+  static String approvalReturn(int id) => '/approvals/$id/return';
 }

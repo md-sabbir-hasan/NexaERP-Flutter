@@ -6,6 +6,7 @@ import '../../auth/application/auth_provider.dart';
 import '../../../shared/widgets/notification_bell.dart';
 import '../../../shared/widgets/stat_tile.dart';
 import '../application/dashboard_provider.dart';
+import '../data/dashboard_models.dart';
 import 'widgets/cash_hero_card.dart';
 import 'widgets/budget_donut_card.dart';
 import 'widgets/expense_progress_card.dart';
@@ -43,7 +44,7 @@ class DashboardScreen extends ConsumerWidget {
                     children: [
                       IconButton(
                         icon: const Icon(Icons.menu, color: AppColors.textPrimary),
-                        onPressed: () {},
+                        onPressed: () => context.push('/more'),
                       ),
                       Expanded(
                         child: Column(
@@ -109,6 +110,9 @@ class DashboardScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
 
+                  // Workflow / pending approval banner (approval enabled থাকলেই দেখাবে)
+                  _WorkflowCard(workflowAsync: workflowAsync),
+
                   // Cash hero card
                   CashHeroCard(
                     currencyCode: summary.business.currencyCode ?? 'BDT',
@@ -135,6 +139,7 @@ class DashboardScreen extends ConsumerWidget {
                         chipColor: AppColors.chipBlue,
                         value: '${summary.finance.totalAccounts}',
                         label: 'Accounts',
+                        onTap: () => context.push('/accounts'),
                       ),
                       StatTile(
                         icon: Icons.description,
@@ -150,6 +155,7 @@ class DashboardScreen extends ConsumerWidget {
                         chipColor: AppColors.chipOrange,
                         value: '$pendingApprovals',
                         label: 'Pending Approvals',
+                        onTap: () => context.push('/approvals'),
                       ),
                       StatTile(
                         icon: Icons.person,
@@ -157,8 +163,8 @@ class DashboardScreen extends ConsumerWidget {
                         chipColor: AppColors.chipPurple,
                         value: '${summary.users.active}',
                         label: 'Active Users',
+                        onTap: () => context.push('/more'),
                       ),
-
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -183,28 +189,34 @@ class DashboardScreen extends ConsumerWidget {
                       color: AppColors.iconBlue,
                       bgColor: AppColors.chipBlue,
                       label: 'Add Account',
-                      onTap: () {},
+                      onTap: () => context.push('/accounts'),
                     ),
                     QuickAction(
                       icon: Icons.receipt_long,
                       color: AppColors.iconGreen,
                       bgColor: AppColors.chipGreen,
                       label: 'New Invoice',
-                      onTap: () {},
+                      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Invoice module works')),
+                      ),
                     ),
                     QuickAction(
                       icon: Icons.account_balance_wallet,
                       color: AppColors.iconOrange,
                       bgColor: AppColors.chipOrange,
                       label: 'Receive Payment',
-                      onTap: () {},
+                      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Payment module works')),
+                      ),
                     ),
                     QuickAction(
                       icon: Icons.swap_horiz,
                       color: AppColors.iconPurple,
                       bgColor: AppColors.chipPurple,
                       label: 'Make Payment',
-                      onTap: () {},
+                      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Payment module works')),
+                      ),
                     ),
                   ]),
                 ],
@@ -213,6 +225,55 @@ class DashboardScreen extends ConsumerWidget {
           },
         ),
       ),
+    );
+  }
+}
+
+class _WorkflowCard extends ConsumerWidget {
+  final AsyncValue<DashboardWorkflowSummary> workflowAsync;
+  const _WorkflowCard({required this.workflowAsync});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return workflowAsync.when(
+      loading: () => const SizedBox.shrink(),
+      error: (_, __) => const SizedBox.shrink(),
+      data: (w) {
+        if (!w.approvalEnabled) return const SizedBox.shrink();
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: InkWell(
+            onTap: () => context.push('/approvals'),
+            borderRadius: BorderRadius.circular(14),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.chipBlue,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.pending_actions, color: AppColors.primary),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Waiting for Approve: ${w.myPendingCount}',
+                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                        if (w.myReturnedCount > 0)
+                          Text('Returned: ${w.myReturnedCount}',
+                              style: const TextStyle(color: AppColors.danger, fontSize: 11)),
+                      ],
+                    ),
+                  ),
+                  const Icon(Icons.chevron_right, size: 18, color: AppColors.textSecondary),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
