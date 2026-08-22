@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../auth/application/auth_provider.dart';
 import '../../../shared/widgets/notification_bell.dart';
@@ -141,6 +142,7 @@ class DashboardScreen extends ConsumerWidget {
                         chipColor: AppColors.chipGreen,
                         value: '${summary.finance.totalJournalEntries}',
                         label: 'Journal Entries',
+                        onTap: () => context.push('/journals'),
                       ),
                       StatTile(
                         icon: Icons.pending_actions,
@@ -156,6 +158,7 @@ class DashboardScreen extends ConsumerWidget {
                         value: '${summary.users.active}',
                         label: 'Active Users',
                       ),
+
                     ],
                   ),
                   const SizedBox(height: 16),
