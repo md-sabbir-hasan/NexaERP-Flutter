@@ -69,4 +69,11 @@ class ApiEndpoints {
   // Parties (light usage — picker only)
   static const String parties = '/parties';
   static String partiesByType(String type) => '/parties/type/$type';
+
+
+  // Expenses
+  static const String expenses = '/expenses';
+  static String expenseById(int id) => '/expenses/$id';
+  static String expensePost(int id) => '/expenses/$id/post';
+  static String expenseCancel(int id) => '/expenses/$id/cancel';
 }

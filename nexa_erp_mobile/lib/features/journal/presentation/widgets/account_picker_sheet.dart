@@ -5,17 +5,30 @@ import '../../../accounts/application/account_provider.dart';
 import '../../../accounts/data/account_models.dart';
 import '../../../accounts/presentation/widgets/account_type_style.dart';
 
-Future<AccountModel?> showAccountPickerSheet(BuildContext context) {
+Future<AccountModel?> showAccountPickerSheet(
+    BuildContext context, {
+      AccountType? filterType,
+      bool? cashEquivalentOnly,
+      String title = 'Select Account',
+    }) {
   return showModalBottomSheet<AccountModel>(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (_) => const _AccountPickerSheet(),
+    builder: (_) => _AccountPickerSheet(
+      filterType: filterType,
+      cashEquivalentOnly: cashEquivalentOnly,
+      title: title,
+    ),
   );
 }
 
 class _AccountPickerSheet extends ConsumerStatefulWidget {
-  const _AccountPickerSheet();
+  final AccountType? filterType;
+  final bool? cashEquivalentOnly;
+  final String title;
+
+  const _AccountPickerSheet({this.filterType, this.cashEquivalentOnly, required this.title});
 
   @override
   ConsumerState<_AccountPickerSheet> createState() => _AccountPickerSheetState();
@@ -23,6 +36,7 @@ class _AccountPickerSheet extends ConsumerStatefulWidget {
 
 class _AccountPickerSheetState extends ConsumerState<_AccountPickerSheet> {
   final _searchCtrl = TextEditingController();
+
   List<AccountModel> _flatten(List<AccountModel> list) {
     final result = <AccountModel>[];
     for (final a in list) {
@@ -48,7 +62,7 @@ class _AccountPickerSheetState extends ConsumerState<_AccountPickerSheet> {
           children: [
             Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(4))),
             const SizedBox(height: 14),
-            const Text('Select Account', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(widget.title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 12),
             TextField(
               controller: _searchCtrl,
@@ -68,11 +82,25 @@ class _AccountPickerSheetState extends ConsumerState<_AccountPickerSheet> {
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (e, _) => Center(child: Text('Error: $e')),
                 data: (tree) {
-                  final flat = _flatten(tree).where((a) => a.isActive).toList();
+                  var flat = _flatten(tree).where((a) => a.isActive).toList();
+
+                  // type filter (e.g. শুধু Expense account)
+                  if (widget.filterType != null) {
+                    flat = flat.where((a) => a.type == widget.filterType).toList();
+                  }
+                  // cash equivalent filter (e.g. শুধু Cash/Bank account)
+                  if (widget.cashEquivalentOnly == true) {
+                    flat = flat.where((a) => a.isCashEquivalent).toList();
+                  }
+
                   final query = _searchCtrl.text.toLowerCase();
                   final filtered = query.isEmpty
                       ? flat
                       : flat.where((a) => a.name.toLowerCase().contains(query) || a.code.contains(query)).toList();
+
+                  if (filtered.isEmpty) {
+                    return const Center(child: Text('Account Not Found', style: TextStyle(color: AppColors.textSecondary)));
+                  }
 
                   return ListView.separated(
                     controller: scrollController,
