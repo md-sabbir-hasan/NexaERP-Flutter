@@ -48,4 +48,20 @@ class ApiEndpoints {
   static String approvalApprove(int id) => '/approvals/$id/approve';
   static String approvalReject(int id) => '/approvals/$id/reject';
   static String approvalReturn(int id) => '/approvals/$id/return';
+
+
+  // Users
+  static const String users = '/users';
+  static String userById(int id) => '/users/$id';
+  static String userDeactivate(int id) => '/users/$id/deactivate';
+  static String userActivate(int id) => '/users/$id/activate';
+
+  // Roles
+  static const String roles = '/roles';
+  static String roleById(int id) => '/roles/$id';
+  static String roleAssignPermissions(int id) => '/roles/$id/permissions/assign';
+  static String roleRemovePermissions(int id) => '/roles/$id/permissions/remove';
+
+  // Permissions
+  static const String permissions = '/permissions';
 }

@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nexa_erp_mobile/features/approvals/presentation/approvals_screen.dart';
 import 'package:nexa_erp_mobile/features/journal/presentation/journal_list_screen.dart';
+import 'package:nexa_erp_mobile/features/users/presentation/roles_screen.dart';
+import 'package:nexa_erp_mobile/features/users/presentation/users_screen.dart';
 import '../features/auth/application/auth_provider.dart';
 import '../features/auth/presentation/login_screen.dart';
 import '../features/splash/presentation/splash_screen.dart';
@@ -37,6 +39,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/notifications', builder: (_, __) => const NotificationScreen()),
       GoRoute(path: '/journals', builder: (_, __) => const JournalListScreen()),
       GoRoute(path: '/approvals', builder: (_, __) => const ApprovalsScreen()),
+      GoRoute(path: '/users', builder: (_, __) => const UsersScreen()),
+      GoRoute(path: '/roles', builder: (_, __) => const RolesScreen()),
 
       // Bottom-nav shell (persistent state per tab)
       StatefulShellRoute.indexedStack(

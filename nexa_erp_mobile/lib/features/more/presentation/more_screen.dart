@@ -46,7 +46,8 @@ class MoreScreen extends ConsumerWidget {
           const SizedBox(height: 20),
           _menuTile(Icons.notifications_outlined, 'Notifications', () => context.push('/notifications')),
           _menuTile(Icons.settings_outlined, 'System Settings', () {}),
-          _menuTile(Icons.people_outline, 'Users & Roles', () {}),
+          _menuTile(Icons.people_outline, 'Users', () => context.push('/users')),
+          _menuTile(Icons.shield_outlined, 'Roles & Permissions', () => context.push('/roles')),
           _menuTile(Icons.history, 'Audit Log', () {}),
           const SizedBox(height: 10),
           _menuTile(
