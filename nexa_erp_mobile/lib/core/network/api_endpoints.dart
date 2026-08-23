@@ -64,4 +64,9 @@ class ApiEndpoints {
 
   // Permissions
   static const String permissions = '/permissions';
+
+
+  // Parties (light usage — picker only)
+  static const String parties = '/parties';
+  static String partiesByType(String type) => '/parties/type/$type';
 }
