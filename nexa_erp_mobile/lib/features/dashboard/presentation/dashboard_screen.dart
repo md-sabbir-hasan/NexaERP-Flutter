@@ -196,9 +196,7 @@ class DashboardScreen extends ConsumerWidget {
                       color: AppColors.iconGreen,
                       bgColor: AppColors.chipGreen,
                       label: 'New Invoice',
-                      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Invoice module works')),
-                      ),
+                      onTap: () => context.push('/invoices'),
                     ),
                     QuickAction(
                       icon: Icons.account_balance_wallet,
@@ -217,6 +215,7 @@ class DashboardScreen extends ConsumerWidget {
                       onTap: () => ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Payment module works')),
                       ),
+
                     ),
                   ]),
                 ],

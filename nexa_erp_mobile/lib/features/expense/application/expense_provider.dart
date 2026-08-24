@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nexa_erp_mobile/features/parties/application/party_provider.dart';
 import '../data/expense_repository.dart';
 import '../data/expense_models.dart';
 import '../../../core/network/providers.dart';
-import '../../parties/data/party_repository.dart';
 import '../../parties/data/party_models.dart';
 
 final expenseRepositoryProvider = Provider<ExpenseRepository>((ref) {
@@ -10,10 +10,6 @@ final expenseRepositoryProvider = Provider<ExpenseRepository>((ref) {
   return ExpenseRepository(dio);
 });
 
-final partyRepositoryProvider = Provider<PartyRepository>((ref) {
-  final dio = ref.watch(dioProvider);
-  return PartyRepository(dio);
-});
 
 final vendorListProvider = FutureProvider.autoDispose<List<PartyModel>>((ref) async {
   final repo = ref.watch(partyRepositoryProvider);

@@ -38,9 +38,7 @@ class MainShell extends StatelessWidget {
               'New Invoice',
               onTap: () {
                 Navigator.pop(sheetContext);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Invoice module শীঘ্রই আসছে')),
-                );
+                sheetContext.push('/invoices');
               },
             ),
             _quickActionTile(

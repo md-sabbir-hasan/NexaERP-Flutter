@@ -76,4 +76,12 @@ class ApiEndpoints {
   static String expenseById(int id) => '/expenses/$id';
   static String expensePost(int id) => '/expenses/$id/post';
   static String expenseCancel(int id) => '/expenses/$id/cancel';
+
+
+  // Invoices
+  static const String invoices = '/invoices';
+  static String invoiceById(int id) => '/invoices/$id';
+  static String invoicePost(int id) => '/invoices/$id/post';
+  static String invoiceCancel(int id) => '/invoices/$id/cancel';
+  static String invoiceSubmitApproval(int id) => '/invoices/$id/submit-approval';
 }
