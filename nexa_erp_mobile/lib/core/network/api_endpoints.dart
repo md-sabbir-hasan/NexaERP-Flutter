@@ -84,4 +84,12 @@ class ApiEndpoints {
   static String invoicePost(int id) => '/invoices/$id/post';
   static String invoiceCancel(int id) => '/invoices/$id/cancel';
   static String invoiceSubmitApproval(int id) => '/invoices/$id/submit-approval';
+
+  // Vendor Bills
+  static const String vendorBills = '/vendor-bills';
+  static String vendorBillById(int id) => '/vendor-bills/$id';
+  static String vendorBillApprove(int id) => '/vendor-bills/$id/approve';
+  static String vendorBillSubmitApproval(int id) => '/vendor-bills/$id/submit-approval';
+  static String vendorBillPost(int id) => '/vendor-bills/$id/post';
+  static String vendorBillCancel(int id) => '/vendor-bills/$id/cancel';
 }

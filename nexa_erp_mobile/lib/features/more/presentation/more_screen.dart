@@ -51,6 +51,7 @@ class MoreScreen extends ConsumerWidget {
           _menuTile(Icons.history, 'Audit Log', () {}),
           _menuTile(Icons.receipt_outlined, 'Expenses', () => context.push('/expenses')),
           _menuTile(Icons.receipt_long_outlined, 'Invoices', () => context.push('/invoices')),
+          _menuTile(Icons.request_page_outlined, 'Vendor Bills', () => context.push('/vendor-bills')),
           const SizedBox(height: 10),
           _menuTile(
             Icons.logout,
