@@ -92,4 +92,14 @@ class ApiEndpoints {
   static String vendorBillSubmitApproval(int id) => '/vendor-bills/$id/submit-approval';
   static String vendorBillPost(int id) => '/vendor-bills/$id/post';
   static String vendorBillCancel(int id) => '/vendor-bills/$id/cancel';
+
+
+  // Payments
+  static const String payments = '/payments';
+  static String paymentById(int id) => '/payments/$id';
+  static String paymentByParty(int partyId) => '/payments/party/$partyId';
+  static const String paymentOutstandingSummary = '/payments/outstanding-summary';
+  static String paymentPost(int id) => '/payments/$id/post';
+  static String paymentSubmitApproval(int id) => '/payments/$id/submit-approval';
+  static String paymentCancel(int id) => '/payments/$id/cancel';
 }

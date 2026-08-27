@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nexa_erp_mobile/features/payment/data/payment_models.dart';
+import 'package:nexa_erp_mobile/features/payment/presentation/create_payment_screen.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../auth/application/auth_provider.dart';
 import '../../../shared/widgets/notification_bell.dart';
@@ -203,8 +205,8 @@ class DashboardScreen extends ConsumerWidget {
                       color: AppColors.iconOrange,
                       bgColor: AppColors.chipOrange,
                       label: 'Receive Payment',
-                      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Payment module works')),
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const CreatePaymentScreen(initialType: PaymentType.receipt)),
                       ),
                     ),
                     QuickAction(
@@ -212,10 +214,9 @@ class DashboardScreen extends ConsumerWidget {
                       color: AppColors.iconPurple,
                       bgColor: AppColors.chipPurple,
                       label: 'Make Payment',
-                      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Payment module works')),
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const CreatePaymentScreen(initialType: PaymentType.payment)),
                       ),
-
                     ),
                   ]),
                 ],
