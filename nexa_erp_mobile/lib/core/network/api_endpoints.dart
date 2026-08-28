@@ -110,4 +110,11 @@ class ApiEndpoints {
   static String creditNoteApprove(int id) => '/credit-notes/$id/approve';
   static String creditNotePost(int id) => '/credit-notes/$id/post';
   static String creditNoteCancel(int id) => '/credit-notes/$id/cancel';
+
+  // Debit Notes
+  static const String debitNotes = '/debit-notes';
+  static String debitNoteById(int id) => '/debit-notes/$id';
+  static String debitNoteApprove(int id) => '/debit-notes/$id/approve';
+  static String debitNotePost(int id) => '/debit-notes/$id/post';
+  static String debitNoteCancel(int id) => '/debit-notes/$id/cancel';
 }
