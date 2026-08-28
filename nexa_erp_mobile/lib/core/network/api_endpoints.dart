@@ -1,8 +1,8 @@
 class ApiEndpoints {
   ApiEndpoints._();
   
-   static const String baseUrl = 'http://10.0.2.2:8085/api';
-  //static const String baseUrl = 'http://localhost:8085/api';
+   //static const String baseUrl = 'http://10.0.2.2:8085/api';
+  static const String baseUrl = 'http://localhost:8085/api';
 
 
   // Auth
@@ -102,4 +102,12 @@ class ApiEndpoints {
   static String paymentPost(int id) => '/payments/$id/post';
   static String paymentSubmitApproval(int id) => '/payments/$id/submit-approval';
   static String paymentCancel(int id) => '/payments/$id/cancel';
+
+
+  // Credit Notes
+  static const String creditNotes = '/credit-notes';
+  static String creditNoteById(int id) => '/credit-notes/$id';
+  static String creditNoteApprove(int id) => '/credit-notes/$id/approve';
+  static String creditNotePost(int id) => '/credit-notes/$id/post';
+  static String creditNoteCancel(int id) => '/credit-notes/$id/cancel';
 }
