@@ -117,4 +117,18 @@ class ApiEndpoints {
   static String debitNoteApprove(int id) => '/debit-notes/$id/approve';
   static String debitNotePost(int id) => '/debit-notes/$id/post';
   static String debitNoteCancel(int id) => '/debit-notes/$id/cancel';
+
+
+  // Banking
+  static const String bankAccounts = '/bank-accounts';
+  static String bankAccountById(int id) => '/bank-accounts/$id';
+  static String bankAccountDeactivate(int id) => '/bank-accounts/$id/deactivate';
+  static String bankAccountActivate(int id) => '/bank-accounts/$id/activate';
+
+  static const String bankTransactions = '/bank-transactions';
+  static String bankTransactionsByAccount(int accountId) => '/bank-transactions/account/$accountId';
+  static String bankTransactionReconcile(int id) => '/bank-transactions/$id/reconcile';
+  static String bankTransactionUnreconcile(int id) => '/bank-transactions/$id/unreconcile';
+  static String bankTransactionVoid(int id) => '/bank-transactions/$id/void';
+  static const String bankTransfer = '/bank-transactions/transfer';
 }

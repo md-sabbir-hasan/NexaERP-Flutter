@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nexa_erp_mobile/features/approvals/presentation/approvals_screen.dart';
+import 'package:nexa_erp_mobile/features/banking/presentation/bank_account_list_screen.dart';
 import 'package:nexa_erp_mobile/features/creditnote/presentation/creditnote_list_screen.dart';
 import 'package:nexa_erp_mobile/features/debitnote/presentation/debitnote_list_screen.dart';
 import 'package:nexa_erp_mobile/features/expense/presentation/expense_list_screen.dart';
@@ -53,6 +54,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/payments', builder: (_, __) => const PaymentListScreen()),
       GoRoute(path: '/credit-notes', builder: (_, __) => const CreditNoteListScreen()),
       GoRoute(path: '/debit-notes', builder: (_, __) => const DebitNoteListScreen()),
+      GoRoute(path: '/banking', builder: (_, __) => const BankAccountListScreen()),
 
       // Bottom-nav shell (persistent state per tab)
       StatefulShellRoute.indexedStack(

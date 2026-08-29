@@ -55,6 +55,7 @@ class MoreScreen extends ConsumerWidget {
           _menuTile(Icons.payments_outlined, 'Payments', () => context.push('/payments')),
           _menuTile(Icons.assignment_return_outlined, 'Credit Notes', () => context.push('/credit-notes')),
           _menuTile(Icons.assignment_returned_outlined, 'Debit Notes', () => context.push('/debit-notes')),
+          _menuTile(Icons.account_balance_outlined, 'Banking', () => context.push('/banking')),
           const SizedBox(height: 10),
           _menuTile(
             Icons.logout,
