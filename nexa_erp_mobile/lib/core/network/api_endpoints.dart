@@ -131,4 +131,12 @@ class ApiEndpoints {
   static String bankTransactionUnreconcile(int id) => '/bank-transactions/$id/unreconcile';
   static String bankTransactionVoid(int id) => '/bank-transactions/$id/void';
   static const String bankTransfer = '/bank-transactions/transfer';
+
+  // Fixed Assets
+  static const String fixedAssets = '/fixed-assets';
+  static String fixedAssetById(int id) => '/fixed-assets/$id';
+  static String fixedAssetDepreciationHistory(int id) => '/fixed-assets/$id/depreciation-history';
+  static String fixedAssetRunDepreciation(int id) => '/fixed-assets/$id/run-depreciation';
+  static const String fixedAssetRunDepreciationAll = '/fixed-assets/run-depreciation-all';
+  static String fixedAssetDispose(int id) => '/fixed-assets/$id/dispose';
 }

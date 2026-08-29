@@ -6,6 +6,7 @@ import 'package:nexa_erp_mobile/features/banking/presentation/bank_account_list_
 import 'package:nexa_erp_mobile/features/creditnote/presentation/creditnote_list_screen.dart';
 import 'package:nexa_erp_mobile/features/debitnote/presentation/debitnote_list_screen.dart';
 import 'package:nexa_erp_mobile/features/expense/presentation/expense_list_screen.dart';
+import 'package:nexa_erp_mobile/features/fixedasset/presentation/fixedasset_list_screen.dart';
 import 'package:nexa_erp_mobile/features/invoice/presentation/invoice_list_screen.dart';
 import 'package:nexa_erp_mobile/features/journal/presentation/journal_list_screen.dart';
 import 'package:nexa_erp_mobile/features/payment/presentation/payment_list_screen.dart';
@@ -55,6 +56,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/credit-notes', builder: (_, __) => const CreditNoteListScreen()),
       GoRoute(path: '/debit-notes', builder: (_, __) => const DebitNoteListScreen()),
       GoRoute(path: '/banking', builder: (_, __) => const BankAccountListScreen()),
+      GoRoute(path: '/fixed-assets', builder: (_, __) => const FixedAssetListScreen()),
 
       // Bottom-nav shell (persistent state per tab)
       StatefulShellRoute.indexedStack(
