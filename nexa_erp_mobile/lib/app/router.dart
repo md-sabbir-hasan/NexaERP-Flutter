@@ -10,6 +10,7 @@ import 'package:nexa_erp_mobile/features/fixedasset/presentation/fixedasset_list
 import 'package:nexa_erp_mobile/features/invoice/presentation/invoice_list_screen.dart';
 import 'package:nexa_erp_mobile/features/journal/presentation/journal_list_screen.dart';
 import 'package:nexa_erp_mobile/features/payment/presentation/payment_list_screen.dart';
+import 'package:nexa_erp_mobile/features/reports/presentation/reports_hub_screen.dart';
 import 'package:nexa_erp_mobile/features/users/presentation/roles_screen.dart';
 import 'package:nexa_erp_mobile/features/users/presentation/users_screen.dart';
 import 'package:nexa_erp_mobile/features/vendorbill/presentation/vendorbill_list_screen.dart';
@@ -19,7 +20,6 @@ import '../features/splash/presentation/splash_screen.dart';
 import '../features/dashboard/presentation/dashboard_screen.dart';
 import '../features/notifications/presentation/notification_screen.dart';
 import '../features/accounts/presentation/accounts_placeholder_screen.dart';
-import '../features/reports/presentation/reports_placeholder_screen.dart';
 import '../features/more/presentation/more_screen.dart';
 import 'shell/main_shell.dart';
 
@@ -69,7 +69,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             GoRoute(path: '/accounts', builder: (_, __) => const AccountsPlaceholderScreen()),
           ]),
           StatefulShellBranch(routes: [
-            GoRoute(path: '/reports', builder: (_, __) => const ReportsPlaceholderScreen()),
+            GoRoute(path: '/reports', builder: (_, __) => const ReportsHubScreen()),
           ]),
           StatefulShellBranch(routes: [
             GoRoute(path: '/more', builder: (_, __) => const MoreScreen()),

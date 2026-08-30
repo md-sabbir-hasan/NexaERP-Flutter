@@ -139,4 +139,10 @@ class ApiEndpoints {
   static String fixedAssetRunDepreciation(int id) => '/fixed-assets/$id/run-depreciation';
   static const String fixedAssetRunDepreciationAll = '/fixed-assets/run-depreciation-all';
   static String fixedAssetDispose(int id) => '/fixed-assets/$id/dispose';
+
+  // Reports
+  static const String reportTrialBalance = '/reports/trial-balance';
+  static const String reportProfitLoss = '/reports/profit-loss';
+  static const String reportBalanceSheet = '/reports/balance-sheet';
+  static String reportLedger(int accountId) => '/reports/ledger/$accountId';
 }
