@@ -70,9 +70,13 @@ class ExpenseProgressCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(label, style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
-        Text(
-          percentText ?? '৳ ${value?.toStringAsFixed(2) ?? '0.00'}',
-          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+        Flexible(
+          child: Text(
+            percentText ?? '৳ ${value?.toStringAsFixed(2) ?? '0.00'}',
+            textAlign: TextAlign.right,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+          ),
         ),
       ],
     );

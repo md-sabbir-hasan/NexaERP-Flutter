@@ -25,7 +25,7 @@ class StatTile extends StatelessWidget {
       borderRadius: BorderRadius.circular(16),
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         decoration: BoxDecoration(
           color: AppColors.cardBg,
           borderRadius: BorderRadius.circular(16),
@@ -34,19 +34,23 @@ class StatTile extends StatelessWidget {
           ],
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(color: chipColor, borderRadius: BorderRadius.circular(10)),
-              child: Icon(icon, color: iconColor, size: 20),
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(color: chipColor, borderRadius: BorderRadius.circular(9)),
+              child: Icon(icon, color: iconColor, size: 16),
             ),
-            const SizedBox(height: 10),
-            Text(value, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
-            const SizedBox(height: 2),
-            Text(label, style: const TextStyle(fontSize: 12, color: AppColors.textSecondary)),
             const SizedBox(height: 6),
-            Icon(Icons.arrow_forward, size: 14, color: AppColors.textSecondary.withOpacity(0.6)),
+            Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+            const SizedBox(height: 2),
+            Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: 10, color: AppColors.textSecondary, height: 1.1),
+            ),
           ],
         ),
       ),

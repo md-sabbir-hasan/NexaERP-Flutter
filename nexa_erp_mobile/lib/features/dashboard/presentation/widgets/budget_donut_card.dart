@@ -30,8 +30,14 @@ class BudgetDonutCard extends StatelessWidget {
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Budget Utilization', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-              Icon(Icons.more_horiz, color: AppColors.textSecondary),
+              Expanded(
+                child: Text(
+                  'Budget Utilization',
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              const Icon(Icons.more_horiz, color: AppColors.textSecondary),
             ],
           ),
           const SizedBox(height: 4),

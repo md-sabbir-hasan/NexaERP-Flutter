@@ -2,7 +2,8 @@ class ApiEndpoints {
   ApiEndpoints._();
   
    //static const String baseUrl = 'http://10.0.2.2:8085/api';
-  static const String baseUrl = 'http://localhost:8085/api';
+  //static const String baseUrl = 'http://localhost:8085/api';
+  static const String baseUrl = 'http://192.168.0.9:8085/api';
 
 
   // Auth
